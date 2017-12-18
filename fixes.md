@@ -165,8 +165,9 @@ method = new HttpGet(uriBuilder.build());
 
 A check for proxy should be added:
 ```
-if (org.apache.commons.lang.StringUtils.isNotBlank(proxyHost)
-        && org.apache.commons.lang.StringUtils.isNotBlank(proxyPort)) {
+String proxyHost = ConfigurationManager.getProperty("http.proxy.host");
+String proxyPort = ConfigurationManager.getProperty("http.proxy.port");
+if (StringUtils.isNotBlank(proxyHost) && StringUtils.isNotBlank(proxyPort)) {
     HttpHost proxy = new HttpHost(proxyHost, Integer.parseInt(proxyPort), "http");
     RequestConfig config = RequestConfig.custom().setProxy(proxy).build();
     method.setConfig(config);
