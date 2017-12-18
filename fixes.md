@@ -179,9 +179,15 @@ if (StringUtils.isNotBlank(proxyHost) && StringUtils.isNotBlank(proxyPort)) {
 Fix `/dspace-cris/jspui-api/src/main/java/org/dspace/app/webui/cris/components/AFacetedQueryComponent.java` line 232:
 ```
 if(request == null) {
-    DSpaceKernel kernel = new DSpaceKernelManager().getKernel();
-    RequestService requestService = kernel.getServiceManager().getServiceByName(RequestService.class.getName(), RequestService.class);
-    //RequestService requestService = new DSpace().getServiceManager().getServiceByName(RequestService.class.getName(), RequestService.class);
+    RequestService requestService = new DSpace().getServiceManager().getServiceByName(RequestService.class.getName(), RequestService.class);
+    if (requestService == null) {
+        log.error("requestService is null!");
+        return -1;
+    }
+    if (requestService.getCurrentRequest() == null) {
+        log.error("requestService.getCurrentRequest() is null");
+        return -1;
+    }
     request = requestService.getCurrentRequest().getHttpServletRequest();
 }
 ```
@@ -190,10 +196,29 @@ Fix `/dspace-api/src/main/java/org/dspace/google/GoogleRecorderEventListener.jav
 ```
 String proxyHost = ConfigurationManager.getProperty("http.proxy.host");
 String proxyPort = ConfigurationManager.getProperty("http.proxy.port");
-if (org.apache.commons.lang.StringUtils.isNotBlank(proxyHost)
-    && org.apache.commons.lang.StringUtils.isNotBlank(proxyPort)) {
+if (StringUtils.isNotBlank(proxyHost) && StringUtils.isNotBlank(proxyPort)) {
     HttpHost proxy = new HttpHost(proxyHost, Integer.parseInt(proxyPort), "http");
     RequestConfig config = RequestConfig.custom().setProxy(proxy).build();
     httpPost.setConfig(config);
 }
+```
+
+## Fix WoS Import
+
+Fix `/dspace-api/src/main/java/org/dspace/submit/lookup/WOSService.java` add method:
+```
+public void setProxy(HttpClient client) {
+    String proxyHost = ConfigurationManager.getProperty("http.proxy.host");
+    String proxyPort = ConfigurationManager.getProperty("http.proxy.port");
+    if (StringUtils.isNotBlank(proxyHost) && StringUtils.isNotBlank(proxyPort)) {
+        HostConfiguration hostCfg = client.getHostConfiguration();
+        hostCfg.setProxy(proxyHost, Integer.parseInt(proxyPort));
+        client.setHostConfiguration(hostCfg);
+    }
+}
+```
+and call it wherever an `HttpClient` is created:
+```
+HttpClient client = new HttpClient();
+setProxy(client);
 ```
