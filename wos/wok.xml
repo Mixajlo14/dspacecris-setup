@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:wok="http://woksearch.v3.wokmws.thomsonreuters.com">
+	<soapenv:Header/>
+	<soapenv:Body>
+		<wok:search>
+			<queryParameters>
+				<databaseId>WOK</databaseId>
+				<userQuery>AU=Milosavljevic B*</userQuery>
+				<symbolicTimeSpan>1week</symbolicTimeSpan>
+				<queryLanguage>en</queryLanguage>
+			</queryParameters>
+			<retrieveParameters>
+				<firstRecord>1</firstRecord>
+				<count>100</count>
+			</retrieveParameters>
+		</wok:search>
+	</soapenv:Body>
+</soapenv:Envelope>
