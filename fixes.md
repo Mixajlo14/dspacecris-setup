@@ -222,3 +222,14 @@ and call it wherever an `HttpClient` is created:
 HttpClient client = new HttpClient();
 setProxy(client);
 ```
+
+## XMLUI webapp
+
+OAI-PMH harvesting works only from xmlui webapp.
+
+These two JARs need to be added to `xmlui/WEB-INF/lib` in order for `xmlui` webapp to work properly:
+
+http://central.maven.org/maven2/org/hibernate/hibernate-validator/4.2.0.Final/hibernate-validator-4.2.0.Final.jar
+
+http://central.maven.org/maven2/org/hibernate/hibernate-validator-annotation-processor/4.2.0.Final/hibernate-validator-annotation-processor-4.2.0.Final.jar
+
