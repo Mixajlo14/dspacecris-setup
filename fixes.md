@@ -233,3 +233,26 @@ http://central.maven.org/maven2/org/hibernate/hibernate-validator/4.2.0.Final/hi
 
 http://central.maven.org/maven2/org/hibernate/hibernate-validator-annotation-processor/4.2.0.Final/hibernate-validator-annotation-processor-4.2.0.Final.jar
 
+## OAI-PMH harvesting
+
+These lines in `/dspace/config/dspace.cfg` define the creation of researcher profiles based on DC fields in imported items:
+```
+choices.plugin.dc.contributor.author = RPAuthority
+choices.presentation.dc.contributor.author = suggest
+authority.controlled.dc.contributor.author = true
+```
+We should add the following lines immediately after that to enable import from `dc.creator` if needed:
+```
+choices.plugin.dc.creator = RPAuthority
+choices.presentation.dc.creator = suggest
+authority.controlled.dc.creator = true
+```
+
+However, the authors are not displayed yet in the page if they come from `dc.creator` instead of `dc.contributor.author`.
+
+Links:
+
+https://wiki.duraspace.org/display/DSPACECRIS/Integration+with+the+basic+DSpace+data+model
+
+https://wiki.duraspace.org/display/DSPACECRIS/How+to+collect+data+about+CRIS+entities
+
