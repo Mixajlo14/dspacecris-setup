@@ -256,3 +256,24 @@ https://wiki.duraspace.org/display/DSPACECRIS/Integration+with+the+basic+DSpace+
 
 https://wiki.duraspace.org/display/DSPACECRIS/How+to+collect+data+about+CRIS+entities
 
+To `jspui/WEB-INF/classes/Messages.properties` add:
+```
+metadata.dc.creator                 = Author
+```
+
+In `/dspace/config/dspace.cfg` change the line:
+```
+webui.itemdisplay.simple = dc.title, dc.title.alternative, dc.contributor.author(itemcrisref), \
+```
+to
+```
+webui.itemdisplay.simple = dc.title, dc.title.alternative, dc.contributor.author(itemcrisref), dc.creator(itemcrisref), \
+```
+and line
+```
+webui.itemdisplay.default = dc.title, dc.title.alternative, dc.contributor.author(itemcrisref), \
+```
+to
+```
+webui.itemdisplay.default = dc.title, dc.title.alternative, dc.contributor.author(itemcrisref), dc.creator(itemcrisref), \
+```
